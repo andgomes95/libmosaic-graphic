@@ -23,6 +23,12 @@ int mosaicgraph_draw_window(mosaicgraph_window_t * window){
 	glutSwapBuffers(); 
     return window->id;
 }
+mosaicgraph_polygon_t * mosaicgraph_colored_polygon(mosaicgraph_polygon_t * triangle, float red, float green, float blue){
+    triangle->red = red;
+    triangle->green = green;
+    triangle->blue = blue;
+  	return triangle;
+}
 mosaicgraph_polygon_t * mosaicgraph_create_triangle(float x1, float y1,float x2, float y2,float x3, float y3){
 	mosaicgraph_polygon_t * triangle = (mosaicgraph_polygon_t *) malloc(sizeof(mosaicgraph_polygon_t));
 	triangle->x1 = x1;
@@ -44,24 +50,12 @@ void mosaicgraph_draw_triangle(mosaicgraph_polygon_t triangle){
     	glVertex3f(triangle.x3,triangle.y3,0.0f);
   	glEnd();
 }
-mosaicgraph_polygon_t * mosaicgraph_colored_triangle(mosaicgraph_polygon_t * triangle, float red, float green, float blue){
-    triangle->red = red;
-    triangle->green = green;
-    triangle->blue = blue;
-  	return triangle;
-}
-mosaicgraph_polygon_t * mosaicgraph_create_retangle(float x1, float y1,float x2, float y2,float x3, float y3,float x4, float y4){
+mosaicgraph_polygon_t * mosaicgraph_create_retangle(float xMin, float xMax,float yMin, float yMax){
 	mosaicgraph_polygon_t * retangle = (mosaicgraph_polygon_t *) malloc(sizeof(mosaicgraph_polygon_t));
-	retangle->x1 = x1;
-	retangle->y1 = y1;
-	retangle->x2 = x2;
-	retangle->y2 = y2;
-	retangle->x3 = x3;
-	retangle->y3 = y3;
-	retangle->x3 = x3;
-	retangle->y3 = y3;
-	retangle->x4 = x4;
-	retangle->y4 = y4;
+	retangle->x1 = xMin;
+	retangle->y1 = yMin;
+	retangle->x2 = xMax;
+	retangle->y2 = yMax;
 	retangle->red = 1.0f;
 	retangle->green = 1.0f;
 	retangle->blue = 1.0f;
@@ -71,14 +65,29 @@ void mosaicgraph_draw_retangle(mosaicgraph_polygon_t retangle){
 	glColor3f(retangle.red,retangle.green,retangle.blue);
 	glBegin(GL_POLYGON);
 		glVertex3f(retangle.x1,retangle.y1,0.0f);
-	    glVertex3f(retangle.x2,retangle.y2,0.0f);
-    	glVertex3f(retangle.x3,retangle.y3,0.0f);
-    	glVertex3f(retangle.x4,retangle.y4,0.0f);
+	    glVertex3f(retangle.x1,retangle.y2,0.0f);
+    	glVertex3f(retangle.x2,retangle.y2,0.0f);
+    	glVertex3f(retangle.x2,retangle.y1,0.0f);
   	glEnd();
 }
-mosaicgraph_polygon_t * mosaicgraph_colored_retangle(mosaicgraph_polygon_t * retangle, float red, float green, float blue){
-    retangle->red = red;
-    retangle->green = green;
-    retangle->blue = blue;
-  	return retangle;
+mosaicgraph_polygon_t * mosaicgraph_create_paralelogram(float xMin, float xMax,float yMin, float yMax,float dist){
+	mosaicgraph_polygon_t * paralelogram = (mosaicgraph_polygon_t *) malloc(sizeof(mosaicgraph_polygon_t));
+	paralelogram->x1 = xMin;
+	paralelogram->y1 = yMin;
+	paralelogram->x2 = xMax;
+	paralelogram->y2 = yMax;
+	paralelogram->x3 = dist;
+	paralelogram->red = 1.0f;
+	paralelogram->green = 1.0f;
+	paralelogram->blue = 1.0f;
+	return paralelogram;
+}
+void mosaicgraph_draw_paralelogram(mosaicgraph_polygon_t paralelogram){
+	glColor3f(paralelogram.red,paralelogram.green,paralelogram.blue);
+	glBegin(GL_POLYGON);
+		glVertex3f(paralelogram.x1,paralelogram.y1,0.0f);
+	    glVertex3f(paralelogram.x1+paralelogram.x3,paralelogram.y2,0.0f);
+    	glVertex3f(paralelogram.x2,paralelogram.y2,0.0f);
+    	glVertex3f(paralelogram.x2-paralelogram.x3,paralelogram.y1,0.0f);
+  	glEnd();
 }
