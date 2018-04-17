@@ -14,13 +14,13 @@ int mosaicgraph_draw_window(mosaicgraph_window_t * window){
     glutInitWindowPosition(window->x, window->y);
     glutInitWindowSize(window->width, window->height);
 	glClearColor(window->red, window->green, window->blue, window->alpha);
-	glClear(GL_COLOR_BUFFER_BIT);        
-    window->id = glutCreateWindow(window->title); 
+	glClear(GL_COLOR_BUFFER_BIT);
+    window->id = glutCreateWindow(window->title);
     if (window->fullscreen){
    		glutFullScreen();
     }
     glFlush();
-	glutSwapBuffers(); 
+	glutSwapBuffers();
     return window->id;
 }
 mosaicgraph_polygon_t * mosaicgraph_colored_polygon(mosaicgraph_polygon_t * triangle, float red, float green, float blue){
@@ -29,6 +29,7 @@ mosaicgraph_polygon_t * mosaicgraph_colored_polygon(mosaicgraph_polygon_t * tria
     triangle->blue = blue;
   	return triangle;
 }
+/*
 mosaicgraph_polygon_t * mosaicgraph_create_triangle(float x1, float y1,float x2, float y2,float x3, float y3){
 	mosaicgraph_polygon_t * triangle = (mosaicgraph_polygon_t *) malloc(sizeof(mosaicgraph_polygon_t));
 	triangle->x1 = x1;
@@ -90,4 +91,25 @@ void mosaicgraph_draw_paralelogram(mosaicgraph_polygon_t paralelogram){
     	glVertex3f(paralelogram.x2,paralelogram.y2,0.0f);
     	glVertex3f(paralelogram.x2-paralelogram.x3,paralelogram.y1,0.0f);
   	glEnd();
+}
+*/
+mosaicgraph_polygon_t * mosaicgraph_create_polygon(int countVertex, float * vertex){
+		mosaicgraph_polygon_t * polygon = (mosaicgraph_polygon_t *) malloc(sizeof(mosaicgraph_polygon_t));
+		float * vector = (float *)malloc(countVertex*2*sizeof(float));
+		polygon->len = countVertex;
+		for (int i=0;i<countVertex*2;i++){
+			vector[i] = vertex[i];
+		}
+		polygon->coordinates = vector;
+		return polygon;
+}
+void mosaicgraph_draw_polygon(mosaicgraph_polygon_t polygon){
+	glColor3f(polygon.red,polygon.green,polygon.blue);
+	glBegin(GL_POLYGON);
+		for(int i =0;i < polygon.len*2;i=i+2){
+			glVertex3f(polygon.coordinates[i],polygon.coordinates[i+1],0.0);
+		}
+
+
+	glEnd();
 }
